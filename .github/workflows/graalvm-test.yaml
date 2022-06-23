@@ -1,0 +1,32 @@
+name: GraalVM Test
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: true
+        type: string
+        default: 17
+      graalvm_version:
+        required: true
+        type: string
+        default: 22.1.0
+
+jobs:
+  test:
+    name: Test by GraalVM (${{ inputs.graalvm_version }}) / Java (${{ inputs.java_version }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ayltai/setup-graalvm@v1
+        with:
+          java-version: ${{ inputs.java_version }}
+          graalvm-version: ${{ inputs.graalvm_version }}
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Test with Maven
+        run: mvn test -P graalvm

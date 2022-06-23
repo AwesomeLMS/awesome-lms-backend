@@ -1,0 +1,36 @@
+name: GraalVM native-image
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: true
+        type: string
+        default: 17
+      graalvm_version:
+        required: true
+        type: string
+        default: 22.1.0
+    outputs:
+      artifact_path:
+        type: string
+
+jobs:
+  native-image:
+    name: Test by GraalVM (${{ inputs.graalvm_version }}) / Java (${{ inputs.java_version }})
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ayltai/setup-graalvm@v1
+        with:
+          java-version: ${{ inputs.java_version }}
+          graalvm-version: ${{ inputs.graalvm_version }}
+          native-image: true
+      - name: Generate Executable
+        run: mvn package -Dpackaging=docker-native -Dmicronaut.runtime=lambda -Pgraalvm
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: image
+          path: ./target/function.zip
+          retention-days: 7
