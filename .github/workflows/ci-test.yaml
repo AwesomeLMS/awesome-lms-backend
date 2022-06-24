@@ -9,11 +9,8 @@ on:
   
 jobs:
   call_test:
-    name: Run Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dispatch 'graalvm-test'
-        uses: ./.github/workflows/graalvm-test.yaml
-        with:
-          java_version: 17
-          graalvm_version: 22.1.0
+    name: Dispatch 'graalvm-test'
+    uses: ./.github/workflows/graalvm-test.yaml
+    with:
+      java_version: 17
+      graalvm_version: 22.1.0
