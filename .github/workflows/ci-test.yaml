@@ -1,0 +1,19 @@
+name: Run unit test
+
+on:
+  workflow_dispatch:
+  push: 
+    branches: [develop, release, main]
+  pull_request:
+    branches: [develop, release, main]
+  
+jobs:
+  call_test:
+    name: Run Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch 'graalvm-test'
+        uses: ./.github/workflows/graalvm-test.yaml
+        with:
+          java_version: 17
+          graalvm_version: 22.1.0
