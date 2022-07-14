@@ -20,7 +20,7 @@
         <micronaut.version>3.5.1</micronaut.version>
         <micronaut.runtime>lambda</micronaut.runtime>
         <exec.mainClass>com.github.awesomelms.api.Application</exec.mainClass>
-        <awssdk.version>1.12.247</awssdk.version>
+        <awssdk.version>1.12.260</awssdk.version>
     </properties>
 
     <repositories>
